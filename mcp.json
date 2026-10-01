@@ -1,0 +1,9 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "AbleTime": {
+      "type": "streamable-http",
+      "url": "https://track.abletime.com/api/public/v2/mcp/plugins"
+    }
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "abletime",
+  "version": "1.0.0",
+  "description": "Record time and run the AbleTime board.",
+  "author": {
+    "name": "AbleTime",
+    "url": "https://www.abletime.com"
+  },
+  "homepage": "https://www.abletime.com",
+  "repository": "https://github.com/AbleTime/openai-plugin",
+  "license": "MIT",
+  "keywords": [
+    "abletime",
+    "time-tracking",
+    "project-management",
+    "mcp"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "AbleTime",
+        "shortDescription": "Record time and run the board",
+        "longDescription": "AbleTime records time and runs the project board from one MCP connection that also serves reports as a share link. Skills cover recording, intake, sorting, a bugfix pull request, the board, reports, and a walkthrough. Session-bound watch polling and lifecycle hooks ship only in the Codex marketplace package, not in this hook-free OpenAI package.",
+        "developerName": "AbleTime",
+        "category": "Productivity",
+        "capabilities": [
+          "Read",
+          "Write"
+        ],
+        "websiteURL": "https://www.abletime.com",
+        "privacyPolicyURL": "https://track.abletime.com/terms/privacy",
+        "termsOfServiceURL": "https://track.abletime.com/terms/toc",
+        "defaultPrompt": [
+          "Record the time on the work I am doing.",
+          "Give me a share link for this week's hours."
+        ],
+        "brandColor": "#D84315",
+        "composerIcon": "./assets/logo.svg",
+        "logo": "./assets/logo.svg",
+        "supportURL": "https://docs.abletime.com"
+      },
+      "onboardingSkill": "./skills/walkthrough/SKILL.md",
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "List active tasks assigned to me in the OpenAI Review project",
+              "prompt": "Show my active tasks assigned to me in the OpenAI Review project.",
+              "tools_triggered": "orientation, list_tasks",
+              "expected_behavior": "Resolve identity and the OpenAI Review project, then return only matching active tasks assigned to the reviewer."
+            },
+            {
+              "description": "Record twenty-five minutes on the OpenAI plugin review task",
+              "prompt": "Record 25 minutes against the task titled OpenAI plugin review for checking the submission package.",
+              "tools_triggered": "orientation, upsert_entry",
+              "expected_behavior": "Create one linked draft with wall-clock entryDate, twenty-five minutes, and source/sourceKey provenance against that task."
+            },
+            {
+              "description": "Set the OpenAI priority test task to high",
+              "prompt": "Set the OpenAI priority test task to high priority.",
+              "tools_triggered": "orientation, set_task_priority",
+              "expected_behavior": "Resolve the named task and change only that task's priority to high."
+            },
+            {
+              "description": "Add the OpenAI review checkpoint comment",
+              "prompt": "Add the comment 'OpenAI review checkpoint complete' to the OpenAI comment test task.",
+              "tools_triggered": "orientation, create_comment",
+              "expected_behavior": "Resolve the OpenAI comment test task and add exactly one comment with that text."
+            },
+            {
+              "description": "Create an hours report share link for 21–27 September 2026",
+              "prompt": "Create an hours report for 21–27 September 2026 and give me the share link.",
+              "tools_triggered": "orientation, get_report",
+              "expected_behavior": "Return the expiring AbleTime report path and coverage gaps without dumping the report document."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Refuse to record time without a task or usable context",
+              "prompt": "Record time for the work I just did.",
+              "expected_behavior": "Ask which task to use. Do not create an entry and do not guess a task."
+            },
+            {
+              "description": "Refuse to invent a project that is not visible",
+              "prompt": "Create a task in the Northwind project.",
+              "expected_behavior": "Report that Northwind cannot be resolved in the review organization. Do not choose another project."
+            },
+            {
+              "description": "Relay agent-acceptance refusal without retrying",
+              "prompt": "Accept my newest draft.",
+              "expected_behavior": "With agent acceptance disabled, relay the refusal once, do not retry, and leave the draft unchanged."
+            }
+          ]
+        },
+        "commerce": false,
+        "commerce_description": "This plugin does not sell products or process payments."
+      },
+      "publication": {
+        "release_notes": "1.0.0 hook-free OpenAI package: one MCP connection at /api/public/v2/mcp/plugins, restored recording workflows, and OpenAI review cases. Watch automation remains Codex-marketplace-only."
+      }
+    }
+  }
+}
