@@ -1,6 +1,6 @@
 # AbleTime OpenAI plugin
 
-This repository is the **hook-free OpenAI plugin package**. The repository root is the plugin root (`plugin.json`, `mcp.json`, skills, assets).
+This repository is the **OpenAI plugin package**. The repository root is the plugin root (`plugin.json`, `mcp.json`, skills, assets).
 
 ## Upload to OpenAI Platform
 
